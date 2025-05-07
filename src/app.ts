@@ -1,6 +1,7 @@
 import { SERVICE_UP } from "./constants/app-messages.js";
 import env from "./env.js";
 import factory from "./factory.js";
+import userRoutes from "./routes/userRoutes.js";
 import notFound from "./utils/not-found.js";
 import onError from "./utils/on-error.js";
 import { piLogger } from "./utils/pino-logger.js";
@@ -12,6 +13,8 @@ app.use(piLogger());
 app.get("/", (c) => {
   return sendResponse(c, 200, SERVICE_UP);
 });
+//user routes..........
+app.route("/users", userRoutes);
 
 app.get("/error", (c) => {
   c.status(422);
