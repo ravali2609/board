@@ -1,5 +1,5 @@
-import { pgTable , text, serial, date, timestamp} from "drizzle-orm/pg-core";
-export const user=pgTable(  "Viewusers",{
+import { pgTable , text, serial, date, timestamp,index} from "drizzle-orm/pg-core";
+export const users=pgTable("users",{
     id: serial().primaryKey(),
     first_Name: text().notNull(),      
     last_Name: text(),
@@ -11,5 +11,13 @@ export const user=pgTable(  "Viewusers",{
     created_at: timestamp().notNull().defaultNow(),
     updated_at: timestamp().notNull().defaultNow()
 
-}
-)
+    /// add fileds
+    // status 
+},t=> [
+    index("users_email_idx").on(t.email),
+    index("users_first_name_idx").on(t.first_Name),
+]);
+
+export type UsersTable = typeof users;
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
