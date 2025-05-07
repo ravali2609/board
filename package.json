@@ -2,9 +2,14 @@
   "name": "board",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "dotenvx run -- tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "migrations:gen": "npm run build && drizzle-kit generate",
+    "migrations:apply": "dotenvx run -- drizzle-kit migrate",
+    "studio": "dotenvx run -- drizzle-kit studio"
   },
   "dependencies": {
     "@baselime/pino-transport": "^0.1.5",
@@ -20,9 +25,12 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^4.13.0",
     "@types/node": "^20.11.17",
     "@types/pg": "^8.15.0",
     "drizzle-kit": "^0.31.1",
+    "eslint": "^9.26.0",
+    "eslint-plugin-format": "^1.0.1",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
   }
