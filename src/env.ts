@@ -18,11 +18,11 @@ const VEnvSchema = z.object({
 export type Env = z.infer<typeof VEnvSchema>;
 
 // eslint-disable-next-line import/no-mutable-exports
-let env: Env;
+let envData: Env;
 
 try {
   // eslint-disable-next-line node/no-process-env
-  env = VEnvSchema.parse(process.env);
+  envData = VEnvSchema.parse(process.env);
 }
 catch (e) {
   const error = e as ZodError;
@@ -31,4 +31,4 @@ catch (e) {
   process.exit(1);
 }
 
-export default env;
+export default envData;
