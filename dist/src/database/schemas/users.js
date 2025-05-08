@@ -13,7 +13,7 @@ export const users = pgTable("users", {
     deleted_at: timestamp()
     /// add fileds
     // status 
-}, t => [
+}, (t) => [
     index("users_email_idx").on(t.email),
     index("users_first_name_idx").on(t.first_name),
 ]);

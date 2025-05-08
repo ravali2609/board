@@ -1,4 +1,4 @@
-import { pgTable , text, serial, date, timestamp,index} from "drizzle-orm/pg-core";
+import { pgTable, text, serial, date, timestamp,index} from "drizzle-orm/pg-core";
 export const users=pgTable("users",{
     id: serial().primaryKey(),
     first_name: text().notNull(),      
@@ -14,7 +14,7 @@ export const users=pgTable("users",{
 
     /// add fileds
     // status 
-},t=> [
+},(t: { email: any; first_name: any; })=> [
     index("users_email_idx").on(t.email),
     index("users_first_name_idx").on(t.first_name),
 ]);

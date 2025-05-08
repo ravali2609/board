@@ -14,10 +14,11 @@ app.get("/", (c) => {
   return sendResponse(c, 200, SERVICE_UP);
 });
 
-console.log(SERVICE_UP,`http://localhost:3000/v1.0/`);
+console.log('SERVICE_UP',`http://localhost:3001/v1.0/`);
 
 
 app.route('/', userRoutes);
+
 
 
 
