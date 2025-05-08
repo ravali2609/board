@@ -15,8 +15,10 @@ export const createUserHandlers = factory.createHandlers(async (c) => {
 
     const reqBody = await c.req.json();
 
+    
+    
     const validUserReq = vCreateUser.parse(reqBody);
-   
+    console.log("validated data: ",validUserReq);
     const user = await createUser(validUserReq);
 
     return sendResponse(c, CREATED, USER_CREATED, user);
