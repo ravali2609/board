@@ -20,12 +20,19 @@ export const getRecordById = async(table: DBTable,id: number) => {
 };
 
 //get all users 
-export const getAllRecords = async(table: DBTable) => {
-    const result = await db.select().from(table);
+export const getAllRecords = async(table: DBTable,page=1,limit=10) => {
+    const offset = (page - 1) * limit;
+
+  const result = await db
+    .select()
+    .from(table)
+    .limit(limit)
+    .offset(offset);
+
     const totalCount =  await db.select({ count: count()}) .from(table)
     .then(res => Number(res[0].count));
 
-    return {result, totalCount}
+    return { result, totalCount, page, totalPages: Math.ceil(totalCount / limit) };
 };
 
 

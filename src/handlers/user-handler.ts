@@ -72,8 +72,22 @@ export const getUserByIdHandlers = factory.createHandlers(async (c) => {
 //get all users
 export const getAllUsersHandlers = factory.createHandlers(async (c) => {
   try {
-    const { result, totalCount}= await getAllUsers();
-    return sendResponse(c, OK, USER_FOUND, {totalUsers : totalCount, users: result});
+    const url = new URL(c.req.url);
+    const page = Number(url.searchParams.get("page")) || 1;
+    const limit = Number(url.searchParams.get("limit")) || 10;
+
+    const { result, totalCount, totalPages } = await getAllUsers(page, limit);
+    const prevPage = page > 1 ? page - 1 : null;
+    const nextPage = page < totalPages ? page + 1 : null;
+
+    return sendResponse(c, OK, USER_FOUND, {
+      page,
+      totalPages,
+      prevPage,
+      nextPage,
+      totalUsers: totalCount,
+      users: result,
+    });
   } catch (error) {
     return sendResponse(c, INTERNAL_SERVER_ERROR, USER_NOT_FOUND);
   }
