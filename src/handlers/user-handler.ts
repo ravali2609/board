@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { count, } from "drizzle-orm";
 import { ZodError } from "zod";
 
 import type { NewUser } from "../database/schemas/users.js";
@@ -12,6 +12,7 @@ import { createUser, getAllUsers, getUserById, updateUserById } from "../service
 import { sendResponse } from "../utils/send-response.js";
 import { vCreateUser } from "../validations/user-validations.js";
 
+//create users
 export const createUserHandlers = factory.createHandlers(
   async (c) => {
     try {
@@ -35,6 +36,7 @@ export const createUserHandlers = factory.createHandlers(
   },
 );
 
+//getById users
 export const getUserByIdHandlers = factory.createHandlers(
   async (c) => {
     const userId = c.req.param("user_id");
@@ -46,6 +48,8 @@ export const getUserByIdHandlers = factory.createHandlers(
     return sendResponse(c, OK, USER_FOUND, user);
   },
 );
+
+//get all users
 export const getAllUsersHandlers = factory.createHandlers(
   async (c) => {
     const query = c.req.query();
@@ -58,20 +62,21 @@ export const getAllUsersHandlers = factory.createHandlers(
 
     // Get total user count using PostgreSQL
     const totalCountResult = await db
-      .select({ count: sql<number>`count(*)` })
+      .select({ count: count() })
       .from(users);
 
-    const totalItems = Number(totalCountResult[0]?.count || 0);
-    const totalPages = Math.ceil(totalItems / pageSize);
+    const totalCount = Number(totalCountResult[0]?.count || 0);
+    const totalPages = Math.ceil(totalCount / pageSize);
 
     // Calculate next and previous page
     const nextPage = page < totalPages ? page + 1 : null;
     const prevPage = page > 1 ? page - 1 : null;
 
-    return sendResponse(c, OK, USER_FOUND, { data: usersData, pagination: { totalItems, totalPages, page, pageSize, prevPage ,nextPage} });
+    return sendResponse(c, OK, USER_FOUND, { data: usersData, pagination: { totalCount, totalPages, page, pageSize, prevPage ,nextPage} });
   },
 );
 
+//update users
 export const updateUserByIdHandler = factory.createHandlers(
   async (c) => {
     try {
