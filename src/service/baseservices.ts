@@ -1,6 +1,7 @@
 import db from "../database/db.js"
 import type { NewUser, User, UsersTable } from "../database/schemas/users.js";
 import type { SQL } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 type DBTable = UsersTable 
 type NewDBRecord  = NewUser
@@ -17,6 +18,6 @@ export const updateRecord = async (table: DBTable, data: Partial<NewDBRecord>, w
 }
 
 export const findRecordById = async (table: DBTable, id: number) => {
-    const result = await db.select().from(table).where(table.id.eq(id)).limit(1);
+    const result = await db.select().from(table).where(eq(table.id, id)).limit(1);
     return result[0] || null;
 }
