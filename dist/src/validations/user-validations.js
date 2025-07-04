@@ -7,4 +7,8 @@ export const vCreateUser = z.object({
     dob: z.string({ required_error: "dob is required", invalid_type_error: "dob must be a string", }).transform(val => new Date(val)),
     doj: z.string({ required_error: "doj is required", invalid_type_error: "doj must be a string", }).transform(val => new Date(val)),
     designation: z.string({ required_error: "designation is required", invalid_type_error: "designation must be a string", }).min(3, { message: "designation must be 3 or more characters" }),
+    profile_picture_url: z.string().url().optional(),
+});
+export const vUpdateUserProfilePicture = z.object({
+    profile_picture_url: z.string().url({ message: "Invalid URL format" }),
 });

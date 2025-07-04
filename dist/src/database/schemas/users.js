@@ -8,6 +8,7 @@ export const users = pgTable("users", {
     dob: date({ mode: "date" }).notNull(),
     doj: date({ mode: "date" }).notNull(),
     designation: text().notNull(),
+    profile_picture_url: text(),
     created_at: timestamp().notNull().defaultNow(),
     updated_at: timestamp().notNull().defaultNow(),
     deleted_at: timestamp()
